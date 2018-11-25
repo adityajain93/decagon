@@ -117,11 +117,14 @@ val_test_size = 0.05
 n_genes = 500
 n_drugs = 400
 n_drugdrug_rel_types = 3
+# Create a graph with 50 groups of 10 vertices each with 0.2 prob of connection within and 0.05 prob of ouside group edge
 gene_net = nx.planted_partition_graph(50, 10, 0.2, 0.05, seed=42)
 
 gene_adj = nx.adjacency_matrix(gene_net)
+# Removing single dimenion entries 
 gene_degrees = np.array(gene_adj.sum(axis=0)).squeeze()
 
+# Creating a Sparse Matrix of drug-gene intteraction using random sampling using Gaussian
 gene_drug_adj = sp.csr_matrix((10 * np.random.randn(n_genes, n_drugs) > 15).astype(int))
 drug_gene_adj = gene_drug_adj.transpose(copy=True)
 
